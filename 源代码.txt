@@ -1,0 +1,208 @@
+#include <iostream>
+#include <string>
+#include <sstream>
+#include <fstream>
+
+using namespace std;
+
+struct Lianxiren//联系人结构体
+{
+    string name;  // 姓名
+    string age;   // 性别
+    string nl;    // 年龄
+    string lxdhua;  // 联系电话
+    string jtzz;  // 家庭住址
+};
+
+//添加联系人
+void T_LXR(struct Lianxiren LXR[], int* leng) {
+	if (*leng >= 1000) { cout << "联系人的添加到达上线,请删除后进行添加" << endl; system("pause"); return;}
+			cout << "请填入联系人姓名" << endl;
+			cin >> LXR[*leng].name;
+			cout << "请填入联系人性别" << endl;
+			cin >> LXR[*leng].age;
+			cout << "请填入联系人年龄" << endl;
+			cin >> LXR[*leng].nl;
+			cout << "请填入联系人联系电话" << endl;
+			cin >> LXR[*leng].lxdhua;
+			cout << "请填入联系人家庭住址" << endl;
+			cin >> LXR[*leng].jtzz;
+			++ * leng;
+			cout << "联系人添加成功！" << endl;
+			system("pause");
+}
+//查看联系人
+void X_LXR(const struct Lianxiren LXR[], int leng) {
+	int i = 0;
+	for (int j = 0; j < leng; j++) {
+		cout << "联系人" << j+1 << ":" <<  LXR[j].name << endl;
+	}
+	cout << "输入联系人编号查看联系人\n输入0退出联系人查看" << endl;
+	while (true)
+	{
+		cin >> i;
+		i = i - 1;
+		if (i >= leng) { cout << "没有该联系人" << endl;system("pause"); break; }
+		if (i < 0) { break; }
+		cout << "联系人" << i + 1 << ":" << LXR[i].name << endl;
+		cout << "    姓名 " << LXR[i].name << "\n"
+			<< "    性别 " << LXR[i].age << "\n"
+			<< "    年龄 " << LXR[i].nl << "\n"
+			<< "联系电话 " << LXR[i].lxdhua << "\n"
+			<< "家庭住址 " << LXR[i].jtzz << "\n" << endl;
+	}
+	system("pause");
+}
+//联系人删除
+void S_LXR(struct Lianxiren LXR[], int* leng) {
+	int i = 1;
+	while (i>0) {
+		for (int j = 0; j < *leng; j++) {
+			cout << "联系人" << j + 1 << ":" << LXR[j].name << endl;
+		}
+		cout << "输入联系人编号以删除联系人\n输入非联系人编号退出联系人删除" << endl;
+		cin >> i;
+		if (i <= 0 || i > *leng) { cout << "没有该联系人" << endl; system("pause"); break; }
+		for (int I = 0; I <= *leng - i; I++) { LXR[i - 1] = LXR[i]; }
+		--*leng;
+		system("pause");
+	}
+	cout << "没有联系人，请添加后再删除！" << endl;
+}
+//联系人查找
+void C_LXR(const struct Lianxiren LXR[], int leng) {
+	string XXX; int i = 0;
+	cout << "请输入联系人姓名：";
+	cin >> XXX;
+	for (i = 0; i < leng; i++) {if (XXX == LXR[i].name) {
+		cout << "联系人" << i + 1 << ":" << LXR[i].name << endl;
+		cout << "    姓名: " << LXR[i].name << "\n"
+			<< "    性别: " << LXR[i].age << "\n"
+			<< "    年龄: " << LXR[i].nl << "\n"
+			<< "联系电话: " << LXR[i].lxdhua << "\n"
+			<< "家庭住址: " << LXR[i].jtzz << "\n" << endl;
+		system("pause"); 
+		}
+	}
+	if (i==leng||leng == 0) { cout << "查无此人！" << endl; }
+}
+//联系人修改
+void XX_LXR(struct Lianxiren LXR[], int* leng) {
+	int A = 0; string XXX; int i = 0;
+	cout << "请输入联系人姓名：" << endl;
+	cin >> XXX;
+	for (i = 0; i < *leng; i++) { if (XXX == LXR[i].name) { break; } }
+	if (i == *leng || *leng == 0) { cout << "查无此人！" << endl;	system("pause");}
+	else{cout << "1.修改联系人姓名\n2.修改联系人性别\n3.修改联系人年龄\n4.修改联系人联系电话\n5.修改联系人家庭住址\n6.结束修改" << endl;
+	cin >> A;
+	switch (A) {
+	case 1:
+		cout << "请修改联系人姓名" << endl;
+		cin >> LXR[*leng-1].name;
+		break;
+	case 2:
+		cout << "请修改联系人性别" << endl;
+		cin >> LXR[*leng-1].age;
+		break;
+	case 3:
+		cout << "请修改联系人年龄" << endl;
+		cin >> LXR[*leng-1].nl;
+		break;
+	case 4:
+		cout << "请修改联系人联系电话" << endl;
+		cin >> LXR[*leng-1].lxdhua;
+		break;
+	case 5:
+		cout << "请修改联系人家庭住址" << endl;
+		cin >> LXR[*leng-1].jtzz;
+		break;
+	case 6:
+		cout << "联系人修改成功！" << endl;
+		break;
+	}
+	}
+}
+//清空通讯录
+void PK_LXR(struct Lianxiren LXR[], int* leng) {
+	for (int I = 0; I < *leng; I++) { LXR[*leng - 1] = LXR[*leng]; --* leng; I--; }
+		system("pause");
+}
+//写入操作
+void saveData(Lianxiren LXR[], int len) {
+	ofstream outfile("data.txt");  // 打开文件
+	if (!outfile) {  // 判断是否成功打开文件
+		cout << "文件打开失败" << endl;
+		return;
+	}
+	for (int i = 0; i < len; i++) {  // 遍历数组并写入文件
+		outfile << LXR[i].name << " "
+			<< LXR[i].age << " "
+			<< LXR[i].nl << " "
+			<< LXR[i].lxdhua << " "
+			<< LXR[i].jtzz << endl;
+	}
+	outfile.close();  // 关闭文件
+}
+//读取操作
+void loadData(Lianxiren LXR[], int& len) {
+	ifstream infile("data.txt");  // 打开文件
+	if (!infile) {  // 判断是否成功打开文件
+		cout << "文件打开失败" << endl;
+		return;
+	}
+	string line, word;
+	int i = 0;
+	while (getline(infile, line)) {  // 逐行读取文件
+		stringstream ss(line);  // 用 stringstream 分割字符串
+		ss >> LXR[i].name >> LXR[i].age >> LXR[i].nl >> LXR[i].lxdhua >> LXR[i].jtzz;
+		i++;
+	}
+	len = i;
+	infile.close();  // 关闭文件
+}
+
+
+int main(){
+    Lianxiren LXR[1001];  // 建立最大为1000人的联系人
+    int len = sizeof(LXR) / sizeof(LXR[0]);  // 长度
+    int leng = 0;  // 已记录数
+	int ZA = 0;
+	
+	loadData(LXR, leng);//读取操作
+
+	while (ZA != 7)
+	{
+
+		system("cls");
+		cout << "*******************" << endl;
+		cout << "|  1.联系人添加  |\n|  2.联系人查看  |\n|  3.联系人删除  |\n|  4.联系人查找  |\n|  5.联系人修改  |\n|  6.清空通讯录  |\n|  7.结束填写    |" << endl;
+		cout << "*******************" << endl;
+		//cout << "leng的值为:" << leng << endl;
+		cin >> ZA;
+		switch (ZA) {
+		case 1:
+			T_LXR(LXR, &leng);//联系人添加
+			break;
+		case 2:
+			X_LXR(LXR, leng);//联系人显示
+			break;
+		case 3:
+			S_LXR(LXR, &leng);//联系人删除
+			break;
+		case 4:
+			C_LXR(LXR, leng);//联系人查找
+			break;
+		case 5:
+			XX_LXR(LXR, &leng);//联系人修改
+			break;
+		case 6:
+			PK_LXR(LXR, &leng);//清空通讯录
+			break;
+		case 7:
+			cout << "感谢您的使用！" << endl;
+		}
+		saveData(LXR, leng);//写入操作
+	}
+    system("pause");
+    return 0;
+}
